@@ -5,11 +5,12 @@ import { saveInputFileToBucket, saveOutputFileToBucket } from '@/app/services/bu
 import { generateMindMap } from '@/app/services/mindMapGenerator';
 import { Job } from '@/app/types';
 import { convertJobStatusListToCsvFormat, parseCsvFileFromMemoryBuffer } from '@/app/utils/csv';
+import { LOGGER_ENABLED } from '@/app/constants';
 
 export async function POST(req: Request) {
     const correlationId = newUuid();
     try {
-        console.log('Correlation Key', correlationId);
+        if (LOGGER_ENABLED) console.log('Correlation Key', correlationId);
 
         const jobs = await getGenerationJobsFromRequest(req, correlationId);
         if (!jobs || jobs.length === 0) {
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
 
         const responseFileContent = convertJobStatusListToCsvFormat(mindMapGenerationResults);
         if (await saveOutputFileToBucket(correlationId, responseFileContent)) {
-            console.log('Output file saved to bucket:', correlationId);
+            if (LOGGER_ENABLED) console.log('Output file saved to bucket:', correlationId);
         }
 
         return new NextResponse(responseFileContent, {
@@ -37,10 +38,10 @@ export async function POST(req: Request) {
 
     } catch (error) {
         if (error instanceof Error && error.message.toLowerCase().includes('invalid')) {
-            console.error('Bad Request:', error, correlationId);
+            if (LOGGER_ENABLED) console.error('Bad Request:', error, correlationId);
             return NextResponse.json({ error: error.message, correlationId }, { status: 400 });
         } else {
-            console.error(error, correlationId);
+            if (LOGGER_ENABLED) console.error(error, correlationId);
             return NextResponse.json({ error: 'Internal Server Error', correlationId }, { status: 500 });
         }
     }
@@ -63,7 +64,7 @@ async function getGenerationJobsFromRequest(req: Request, correlationId: string)
     if (!buffer || buffer.byteLength === 0) {
         throw new Error('Invalid File: Unable to read file');
     } else if (await saveInputFileToBucket(correlationId, buffer)) {
-        console.log('Input file saved to bucket:', correlationId);
+        if (LOGGER_ENABLED) console.log('Input file saved to bucket:', correlationId);
     }
 
     return parseCsvFileFromMemoryBuffer(buffer);

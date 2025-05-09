@@ -1,0 +1,43 @@
+{
+    "subject": "Biologie",
+    "topic": "Populationsökologie, Lotka-Volterra-Regeln",
+    "rootNode": {
+        "id": "1",
+        "title": "Populationsökologie, Lotka-Volterra-Regeln",
+        "content": "Untersuchung der Dynamik von Populationen und deren Wechselwirkungen mit der Umwelt",
+        "children": [
+            {
+                "id": "2",
+                "title": "Populationsdichte",
+                "content": "Anzahl von Individuen einer Art pro Flächeneinheit"
+            },
+            {
+                "id": "3",
+                "title": "Wachstumsraten",
+                "content": "Geburtenrate, Sterberate, Wanderungsraten"
+            },
+            {
+                "id": "4",
+                "title": "Tragfähigkeit",
+                "content": "Maximale Anzahl von Individuen, die in einem bestimmten Lebensraum überleben können"
+            },
+            {
+                "id": "5",
+                "title": "Lotka-Volterra-Regeln",
+                "content": "Mathematische Modelle zur Beschreibung der Dynamik von Räuber-Beute-Beziehungen",
+                "children": [
+                    {
+                        "id": "6",
+                        "title": "Räuber-Beute-Beziehung",
+                        "content": "Wechselwirkung zwischen Räuber- und Beutepopulationen"
+                    },
+                    {
+                        "id": "7",
+                        "title": "Prädator-Beute-Beziehung",
+                        "content": "Interaktion zwischen einem Prädator, der seine Beute frisst, und der Beute, die gefressen wird"
+                    }
+                ]
+            }
+        ]
+    }
+}

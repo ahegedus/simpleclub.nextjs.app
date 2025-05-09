@@ -1,4 +1,4 @@
-import { PUBLISHED_FOLDER } from '@/app/constants';
+import { LOGGER_ENABLED, PUBLISHED_FOLDER } from '@/app/constants';
 import { getAllPublishedFilesFromBucket } from '@/app/services/bucket';
 import { MindMap } from '@/app/types';
 import { NextResponse } from 'next/server';
@@ -12,7 +12,7 @@ export async function GET() {
         try {
             return JSON.parse(file) as MindMap;
         } catch (error) {
-            console.error('Error parsing JSON:', error, file);
+            if (LOGGER_ENABLED) console.error('Error parsing JSON:', error, file);
             return null;
         }
     }).filter((mindMap) => mindMap !== null) as MindMap[];

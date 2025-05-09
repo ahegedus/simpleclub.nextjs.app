@@ -11,7 +11,7 @@ The result of your work must be a mind map in the form of JSON using the followi
   "rootNode": {
     "id": string, // Unique identifier for the node
     "title": string, // Title of the node (main concept) in UTF-8 encoding
-    "content"?: string, // Description or explanation in UTF-8 encoding
+    "content": string, // Description or explanation in UTF-8 encoding
     "children"?: MindMapNode[], // Optional array of child nodes
   }
 }

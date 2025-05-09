@@ -3,31 +3,25 @@ import { getBucket } from "@/app/firebase";
 import { SERVER_CONFIGS } from "@/app/config";
 import { PUBLISHED_FOLDER } from "@/app/constants";
 
-async function saveInputFileToBucket(folder: string, buffer: ArrayBuffer, metadata: object = {}): Promise<string> {
+async function saveInputFileToBucket(folder: string, buffer: ArrayBuffer): Promise<string> {
     const bucket = getBucket();
     const inputFileName = `input.csv`;
     const inputFilePath = path.join(folder, inputFileName);
     const inputFile = bucket.file(inputFilePath);
     await inputFile.save(Buffer.from(buffer), {
-        contentType: 'text/csv',
-        metadata: metadata ? {
-            ...metadata,
-        } : undefined,
+        contentType: 'text/csv'
     });
     return inputFilePath;
 }
 
 
-async function saveOutputFileToBucket(folder: string, outputContent: string, metadata: object = {}): Promise<string> {
+async function saveOutputFileToBucket(folder: string, outputContent: string): Promise<string> {
     const bucket = getBucket();
     const outputFileName = `output.csv`;
     const outputFilePath = path.join(folder, outputFileName);
     const outputFile = bucket.file(outputFilePath);
     await outputFile.save(outputContent, {
-        contentType: 'text/csv',
-        metadata: metadata ? {
-            ...metadata,
-        } : undefined,
+        contentType: 'text/csv'
     });
     return outputFilePath;
 }

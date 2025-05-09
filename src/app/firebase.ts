@@ -5,7 +5,8 @@ import { SERVER_CONFIGS } from "./config";
 let app: App;
 
 const APP_NAME = 'SimpleClub.NextJs';
-if (!getApps().some(app => app.name === APP_NAME)) {
+const initializedFirebaseApps = getApps();
+if (!initializedFirebaseApps.some(app => app.name === APP_NAME)) {
     app = initializeApp(
         {},
         APP_NAME
@@ -18,11 +19,7 @@ if (!getApps().some(app => app.name === APP_NAME)) {
 const storage = getStorage(app);
 
 const getBucket = () => {
-    const bucket = storage.bucket(SERVER_CONFIGS.GCLOUD_STORAGE_BUCKET);
-    if (!bucket) {
-        throw new Error(`Bucket ${SERVER_CONFIGS.GCLOUD_STORAGE_BUCKET} not found`);
-    }
-    return bucket;
+    return storage && storage.bucket(SERVER_CONFIGS.GCLOUD_STORAGE_BUCKET);
 };
 
 export {

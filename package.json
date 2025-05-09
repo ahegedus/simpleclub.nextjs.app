@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
+    "test": "jest --passWithNoTests",
     "deploy": "next build && gcloud run deploy simpleclub-nextjs-homeassignment --source=. --project=backend-assignment-adam --region=us-east1 --allow-unauthenticated --platform=managed"
   },
   "dependencies": {
@@ -23,13 +24,19 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.1",
     "@types/swagger-ui-react": "^5.18.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "jest": "^29.7.0",
     "tailwindcss": "^4",
+    "ts-jest": "^29.3.2",
     "typescript": "^5"
   }
 }

@@ -86,6 +86,7 @@ OPENAI_MODEL=gpt-3.5-turbo
 OPENAI_TEMPERATURE=0.7
 OPENAI_MAX_TOKENS=3000
 OPENAI_API_KEY=<your-openai-api-key>
+LOGGER_ENABLED=true
 ```
 
 ### 4. Run Locally

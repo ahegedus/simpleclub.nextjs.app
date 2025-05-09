@@ -1,6 +1,7 @@
 import { Job, JobResult } from "@/app/types";
 
 import { generateMindMap as generateMindMapViaGPT } from "../openai";
+import { LOGGER_ENABLED } from "@/app/constants";
 
 async function generateMindMap(correlationId: string, generationJobs: Job[]): Promise<JobResult[]> {
 
@@ -10,20 +11,11 @@ async function generateMindMap(correlationId: string, generationJobs: Job[]): Pr
             report(({ subject, topic, mindMap: mindMapResult.mindMap, status: 'success' }));
         }
         catch (err) {
-            console.error('Error generating topic:', err);
             report(({ subject, topic, status: 'failure' }));
         }
     })));
 
-    let jobExecutionResults: JobResult[] = [];
-    await Promise.all(mindMapGenerationThreads)
-        .then((jobResult) => {
-            jobExecutionResults = jobResult;
-        }).catch((error) => {
-            console.error('Error processing threads:', error);
-            throw new Error(error);
-        });
-
+    const jobExecutionResults: JobResult[] = await Promise.all(mindMapGenerationThreads);
     return jobExecutionResults;
 }
 

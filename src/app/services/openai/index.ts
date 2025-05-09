@@ -4,6 +4,7 @@ import { saveAndPublishGeneratedMindMap, savePromptFileToBucket } from '@/app/se
 
 import { generateChatResponse } from './openai';
 import promptTemplate from './prompt.template';
+import { LOGGER_ENABLED } from '@/app/constants';
 
 
 /**
@@ -37,66 +38,60 @@ async function generateMindMap(
     subject: string,
     topic: string,
 ): Promise<MindMapResult> {
-    if (!subject || !topic) {
-        throw new Error('Invalid subject or topic');
-    }
-    if (typeof subject !== 'string' || typeof topic !== 'string') {
-        throw new Error('Invalid subject or topic type');
-    }
-    if (subject.length === 0 || topic.length === 0) {
-        throw new Error('Empty subject or topic');
-    }
-
-    // Generate a unique key for the mind map based on the subject and topic
-    const generatedMindMapKey = await generateMindMapKey(subject, topic);
-
-    const gptUserPrompt = promptTemplate
-        .replaceAll("{{ subject }}", subject)
-        .replaceAll("{{ topic }}", topic);
-
-    // Save the generated prompt to a file under `correlationId` folder
-    const gptPromptFilePath = await savePromptFileToBucket(correlationId, generatedMindMapKey, gptUserPrompt, { subject, topic });
-    console.log('Prompt file saved:', gptPromptFilePath);
-
-    // Generate the mind map using OpenAI's GPT model
-    console.log(`Generating topic for subject=${subject} topic=${topic}`);
-    const gptCompletionResponse = await generateChatResponse(gptUserPrompt)
-        .catch((error) => {
-            console.error('Error generating topic:', error);
-            throw new Error('Failed to generate topic');
-        });
-    if (!gptCompletionResponse || !gptCompletionResponse.choices || gptCompletionResponse.choices.length === 0) {
-        throw new Error('No response from OpenAI');
-    }
-    if (!gptCompletionResponse.choices[0].message || !gptCompletionResponse.choices[0].message.content) {
-        throw new Error('Invalid response from OpenAI');
-    }
-    if (gptCompletionResponse.choices[0].message.role !== 'assistant') {
-        throw new Error('Invalid response role from OpenAI');
-    }
-    if (gptCompletionResponse.choices[0].message.content.length === 0) {
-        throw new Error('Empty response from OpenAI');
-    }
-
-    const gptResponseContent = gptCompletionResponse.choices[0].message.content;
-
-    let parsedMindMapResultFromGpt: MindMap | undefined = undefined;
     try {
-        parsedMindMapResultFromGpt = JSON.parse(gptResponseContent) as MindMap;
+        if (!subject || !topic) {
+            throw new Error('Invalid subject or topic');
+        }
+
+        // Generate a unique key for the mind map based on the subject and topic
+        const generatedMindMapKey = await generateMindMapKey(subject, topic);
+
+        const gptUserPrompt = promptTemplate
+            .replaceAll("{{ subject }}", subject)
+            .replaceAll("{{ topic }}", topic);
+
+        // Save the generated prompt to a file under `correlationId` folder
+        const gptPromptFilePath = await savePromptFileToBucket(correlationId, generatedMindMapKey, gptUserPrompt, { subject, topic });
+        if (LOGGER_ENABLED) console.log('Prompt file saved:', gptPromptFilePath);
+
+        // Generate the mind map using OpenAI's GPT model
+        const gptCompletionResponse = await generateChatResponse(gptUserPrompt)
+            .catch((error) => {
+                throw new Error('Failed to generate topic', error);
+            });
+        if (!gptCompletionResponse || !gptCompletionResponse.choices || gptCompletionResponse.choices.length === 0) {
+            throw new Error('No response from OpenAI');
+        }
+        if (!gptCompletionResponse.choices[0].message || !gptCompletionResponse.choices[0].message.content) {
+            throw new Error('Invalid response from OpenAI');
+        }
+        if (gptCompletionResponse.choices[0].message.role !== 'assistant') {
+            throw new Error('Invalid response role from OpenAI');
+        }
+
+        const gptResponseContent = gptCompletionResponse.choices[0].message.content;
+
+        let parsedMindMapResultFromGpt: MindMap | undefined = undefined;
+        try {
+            parsedMindMapResultFromGpt = JSON.parse(gptResponseContent) as MindMap;
+        } catch (error) {
+            if (LOGGER_ENABLED) console.error('Error parsing mind map result:', error);
+        }
+        if (!parsedMindMapResultFromGpt || !parsedMindMapResultFromGpt.rootNode) {
+            throw new Error('Invalid response format from OpenAI');
+        }
+
+        // Save the generated mind map result to a file under `correlationId` folder and then to `PUBLISHED_FOLDER`
+        await saveAndPublishGeneratedMindMap(correlationId, generatedMindMapKey, gptResponseContent, subject, topic);
+
+        return {
+            key: generatedMindMapKey,
+            mindMap: parsedMindMapResultFromGpt,
+        };
     } catch (error) {
-        console.error('Error parsing mind map result:', error);
+        if (LOGGER_ENABLED) console.error('Error generating mind map:', error);
+        throw error;
     }
-    if (!parsedMindMapResultFromGpt || !parsedMindMapResultFromGpt.rootNode) {
-        throw new Error('Invalid response format from OpenAI');
-    }
-
-    // Save the generated mind map result to a file under `correlationId` folder and then to `PUBLISHED_FOLDER`
-    await saveAndPublishGeneratedMindMap(correlationId, generatedMindMapKey, gptResponseContent, subject, topic);
-
-    return {
-        key: generatedMindMapKey,
-        mindMap: parsedMindMapResultFromGpt,
-    };
 }
 
 export {

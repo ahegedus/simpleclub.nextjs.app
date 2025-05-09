@@ -1,0 +1,31 @@
+{
+    "subject": "Mathematik",
+    "topic": "Integrale Grundlagen, Integral Bedeutung",
+    "rootNode": {
+        "id": "1",
+        "title": "Integrale",
+        "content": "Grundlagen und Bedeutung von Integralen in der Mathematik",
+        "children": [
+            {
+                "id": "2",
+                "title": "Riemann-Integral",
+                "content": "Definition und Berechnung des Riemann-Integrals"
+            },
+            {
+                "id": "3",
+                "title": "Bestimmtes Integral",
+                "content": "Berechnung des Flächeninhalts unter einer Kurve mithilfe des bestimmten Integrals"
+            },
+            {
+                "id": "4",
+                "title": "Unbestimmtes Integral",
+                "content": "Berechnung von Stammfunktionen und unbestimmten Integralen"
+            },
+            {
+                "id": "5",
+                "title": "Integrationstechniken",
+                "content": "Methoden zur Berechnung von Integralen, wie partielle Integration und Substitution"
+            }
+        ]
+    }
+}
