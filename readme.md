@@ -111,8 +111,8 @@ Visit [http://localhost:3000](http://localhost:3000) to access the app and API d
 - **Docs:** Swagger UI at `/docs` (served from `/api/openapi`)
 
 ## Testing
-- Add unit/integration tests using your preferred framework (e.g., Jest).
-- To run tests (if implemented):
+- Unit/integration tests using Jest framework.
+- To run tests:
 ```sh
 yarn test
 ```
