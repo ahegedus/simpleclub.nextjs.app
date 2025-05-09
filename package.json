@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "deploy": "next build && gcloud run deploy simpleclub-nextjs-homeassignment --source=. --project=simpleclubhomeassignmentdev --region=europe-west10 --allow-unauthenticated --platform=managed"
+    "deploy": "next build && gcloud run deploy simpleclub-nextjs-homeassignment --source=. --project=backend-assignment-adam --region=us-east1 --allow-unauthenticated --platform=managed"
   },
   "dependencies": {
     "csv-parse": "^5.6.0",
