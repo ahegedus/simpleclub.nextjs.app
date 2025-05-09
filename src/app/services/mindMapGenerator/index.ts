@@ -1,7 +1,6 @@
 import { Job, JobResult } from "@/app/types";
 
 import { generateMindMap as generateMindMapViaGPT } from "../openai";
-import { LOGGER_ENABLED } from "@/app/constants";
 
 async function generateMindMap(correlationId: string, generationJobs: Job[]): Promise<JobResult[]> {
 
@@ -10,7 +9,7 @@ async function generateMindMap(correlationId: string, generationJobs: Job[]): Pr
             const mindMapResult = await generateMindMapViaGPT(correlationId, subject, topic);
             report(({ subject, topic, mindMap: mindMapResult.mindMap, status: 'success' }));
         }
-        catch (err) {
+        catch {
             report(({ subject, topic, status: 'failure' }));
         }
     })));

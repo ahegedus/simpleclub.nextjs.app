@@ -2,7 +2,6 @@ import { generateMindMap } from './index';
 import { generateMindMapKey } from '@/app/utils/indexer';
 import { saveAndPublishGeneratedMindMap, savePromptFileToBucket } from '@/app/services/bucket';
 import { generateChatResponse } from './openai';
-import promptTemplate from './prompt.template';
 
 jest.mock('@/app/utils/indexer', () => ({ generateMindMapKey: jest.fn() }));
 jest.mock('@/app/services/bucket', () => ({
@@ -10,7 +9,6 @@ jest.mock('@/app/services/bucket', () => ({
     savePromptFileToBucket: jest.fn(),
 }));
 jest.mock('./openai', () => ({ generateChatResponse: jest.fn() }));
-jest.mock('./prompt.template', () => 'Prompt: {{ subject }} - {{ topic }}');
 
 const mockKey = 'mock-key';
 const mockPromptPath = 'mock-path.txt';

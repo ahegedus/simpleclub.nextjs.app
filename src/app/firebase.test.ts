@@ -1,10 +1,9 @@
 import { getBucket } from './firebase';
-import { getApps } from "firebase-admin/app";
 
 const mockBucket = { name: 'test-bucket' };
 jest.mock('firebase-admin/storage', () => ({
     getStorage: jest.fn(() => ({
-        bucket: jest.fn((bucketName) => mockBucket),
+        bucket: jest.fn(() => mockBucket),
     })),
 }));
 jest.mock('./config', () => ({

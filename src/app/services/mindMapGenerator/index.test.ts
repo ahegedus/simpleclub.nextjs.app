@@ -37,6 +37,7 @@ describe('generateMindMap', () => {
         jest.spyOn(openaiModule, 'generateMindMap').mockImplementationOnce(
             async () => { throw new Error('fail'); }
         ).mockImplementationOnce(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             async (_correlationId, subject, topic) => ({ key: 'Biologie', mindMap: SAMPLE_MIND_MAP_2 })
         );
         const result = await generateMindMap(correlationId, jobs);
