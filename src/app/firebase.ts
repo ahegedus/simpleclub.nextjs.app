@@ -4,7 +4,7 @@ import { SERVER_CONFIGS } from "./config";
 
 let app: App;
 
-const APP_NAME = 'SimpleClub.NextJs';
+const APP_NAME = 'SC.NextJs';
 const initializedFirebaseApps = getApps();
 if (!initializedFirebaseApps.some(app => app.name === APP_NAME)) {
     app = initializeApp(

@@ -1,4 +1,4 @@
-# Simpleclub Next.js Mind Map Generator
+# SC Next.js Mind Map Generator
 
 This project is a Next.js application for automated mind map generation using OpenAI's GPT-3.5-Turbo API and Google Cloud Storage (via Firebase). It provides a web-based API and documentation UI for uploading CSVs, triggering mind map generation, and retrieving results. The app is designed for scalability, security, and extensibility.
 
@@ -69,7 +69,7 @@ This project demonstrates automated content generation using LLMs. It evaluates 
 ### 1. Clone the Repository
 ```sh
 git clone <your-repo-url>
-cd simpleclub.nextjs
+cd sc.nextjs
 ```
 
 ### 2. Install Dependencies
@@ -122,7 +122,7 @@ yarn test
 ### Deploy to Google Cloud Run
 - This command is needed for setting up the environment variables as needed:
 ```sh
-gcloud run deploy simpleclub-nextjs-homeassignment \
+gcloud run deploy sc-nextjs-homeassignment \
   --source . \
   --project=<your-gcp-project> \
   --set-env-vars=GCP_PROJECT_ID=<your-gcp-project>,GCLOUD_STORAGE_BUCKET=<your-bucket>,OPENAI_MODEL=gpt-3.5-turbo,OPENAI_TEMPERATURE=0.7,OPENAI_MAX_TOKENS=3000,OPENAI_API_KEY=<openai-key> \

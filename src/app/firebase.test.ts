@@ -12,12 +12,12 @@ jest.mock('./config', () => ({
 
 jest.mock('firebase-admin/app', () => ({
     getApp: jest.fn(() => ({
-        name: 'SimpleClub.NextJs',
+        name: 'SC.NextJs',
     })),
     initializeApp: jest.fn(() => ({
-        name: 'SimpleClub.NextJs',
+        name: 'SC.NextJs',
     })),
-    getApps: jest.fn(() => [{ name: 'SimpleClub.NextJs' }]),
+    getApps: jest.fn(() => [{ name: 'SC.NextJs' }]),
 }));
 
 describe('getBucket', () => {

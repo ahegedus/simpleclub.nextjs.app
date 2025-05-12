@@ -9,7 +9,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "jest --passWithNoTests",
-    "deploy": "next build && gcloud run deploy simpleclub-nextjs-homeassignment --source=. --project=backend-assignment-adam --region=us-east1 --allow-unauthenticated --platform=managed"
+    "deploy": "next build && gcloud run deploy sc-nextjs-homeassignment --source=. --project=backend-assignment-adam --region=us-east1 --allow-unauthenticated --platform=managed"
   },
   "dependencies": {
     "csv-parse": "^5.6.0",
